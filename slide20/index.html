@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>Hangman</h1>
+        <p>Use the alphabet below to guess the word, or click the blank to get the clue of that word. </p>
+    </div>
+    <div class="wrapper">
+        <div id="buttons"></div>
+        <div id="question">
+            <span class="unmask">The peripheral nervous system is made up of </span>
+            <div class="hold" id='0'></div>
+            <span class="unmask"> and has two divisions: the </span>
+            <div class="hold" id='1'></div>
+            <span class="unmask"> and </span>
+            <div class="hold" id='2'></div>
+            <span class="unmask">.</span>
+        </div>
+        <p id="mylives"></p>
+        <p id="clue"></p>
+        <!-- <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas> -->
+        <img id="health" />
+        <div class="container">
+            <button id="reset">Play again</button>
+        </div>
+    </div>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

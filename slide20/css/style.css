@@ -23,12 +23,6 @@ body {
     clear: both;
 }
 
-canvas {
-    color: #fff;
-    border: #fff dashed 2px;
-    padding: 15px;
-}
-
 h1,
 h2,
 h3 {
@@ -47,6 +41,11 @@ h2 {
 }
 
 p {
+    font-size: 1.6em;
+}
+
+span {
+    margin: 2px auto;
     font-size: 1.6em;
 }
 
@@ -86,11 +85,36 @@ p {
     color: #fff;
 }
 
+.hold {
+    margin: 2px auto;
+    cursor: pointer;
+    border: solid 2px #006699;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -khtml-border-radius: 5px;
+    display: inline-block;
+}
+
+.hold:hover {
+    border: solid 2px #fff;
+}
+
+.activeHold {
+    margin: 2px auto;
+    cursor: pointer;
+    border: solid 2px #c1d72e;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -khtml-border-radius: 5px;
+    display: inline-block;
+}
+
 #my-word {
     margin: 0;
-    display: block;
     padding: 0;
-    display: block;
+    display: inline-block;
 }
 
 #my-word li {
@@ -126,6 +150,14 @@ p {
     font-size: 1.6em;
     text-align: center;
     display: block;
+}
+
+#health {
+    position: relative;
+    width: 60%;
+    max-width: 350px;
+    padding: 5px;
+    border: dashed 3px #fff;
 }
 
 button {
