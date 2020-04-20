@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>question10_2</title>
+<style type="text/css">
+</style>
+</head>
+<body>
+<img src="fig1.png" width="800" height="800" style="position:absolute; left:100px; top:100px; "/>
+<h1>Whether this is a positive or negative feedback?</h1>
+<table id="selection">
+<tr>
+<th><input type="checkbox" id="box1"></th>
+<th style=" font-size:24px">Positive</th>
+</tr>
+<tr>
+<th><input type="checkbox" id="box2"></th>
+<th style=" font-size:24px">Negative</th>
+</tr>
+<tr>
+<th><input  id="button" type="button" value="Submit" style=" font-size:24px"> </th>
+</tr>
+</table>
+<script>
+var box1=document.getElementById("box1");
+var box2=document.getElementById("box2");
+var button=document.getElementById("button");
+button.onclick =function(){  
+if ((box2.checked === true) && (box1.checked === false)){
+        alert("Correct");}
+else{
+alert('Incorrect');
+window.location.replace("gameover.html");
+}
+}
+</script>
+</body>
+</html>
