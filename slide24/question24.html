@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>question24</title>
+<style type="text/css">
+*{margin: 0;padding: 0}
+#square{width: 300px;height: 700px;
+position: absolute;left:1100px;top:0px;border: 10px solid;text-align:center;
+}
+#q1{width: 100px;height: 20px;
+position: absolute;left:1100px;top:50px;text-align:center;
+}
+#a1{width: 100px;height: 20px;
+position: absolute;left:250px;top:390px;border: 10px solid;text-align:center;
+}
+#q2{width: 100px;height: 20px;
+position: absolute;left:1100px;top:250px;text-align:center;
+}
+#a2{width: 100px;height: 20px;
+position: absolute;left:370px;top:180px;border: 10px solid;text-align:center;
+}
+#q3{width: 100px;height: 20px;
+position: absolute;left:1100px;top:450px;text-align:center;
+}
+#a3{width: 100px;height: 20px;
+position: absolute;left:600px;top:480px;border: 10px solid;text-align:center;
+}
+#q4{width: 100px;height: 20px;
+position: absolute;left:1100px;top:650px;text-align:center;
+}
+#a4{width: 100px;height: 20px;
+position: absolute;left:10px;top:220px;border: 10px solid;text-align:center;
+}
+#q5{width: 100px;height: 20px;
+position: absolute;left:1300px;top:50px;text-align:center;
+}
+#a5{width: 200px;height: 40px;
+position: absolute;left:370px;top:220px;text-align:justify;text-justify:inter-ideograph;
+}
+#q6{width: 100px;height: 20px;
+position: absolute;left:1300px;top:250px;text-align:center;
+}
+#a6{width: 200px;height: 40px;
+position: absolute;left:250px;top:440px;text-align:justify;text-justify:inter-ideograph;
+}
+#q7{width: 100px;height: 40px;
+position: absolute;left:1300px;top:450px;text-align:center;
+}
+#a7{width: 150px;height: 60px;
+position: absolute;left:10px;top:260px;
+}
+#q8{width: 100px;height: 20px;
+position: absolute;left:1300px;top:650px;text-align:center;
+}
+#a8{width: 300px;height: 40px;
+position: absolute;left:600px;top:520px;text-align:center;text-align:justify;text-justify:inter-ideograph;
+}
+</style>
+</head>
+<body>
+<h1>Please label the neuron</h1>
+<div id='health' style=" font-size:24px">You have 5 lives</div>
+<div id="square"></div>
+<img src="fig1.png" width="800" height="600" style="position:absolute; left:100px; top:100px; "/>
+<div id="q1">Axon</div>
+<div id="q2">Cell body</div>
+<div id='q3'>Synapse</div>
+<div id='q4'>Dendrite</div>
+<div id='q5'>nucleus</div>
+<div id='q6'>away</div>
+<div id='q7'>to</div>
+<div id='q8'>across</div>
+<div id="a1"></div>
+<div id='a2'></div>
+<div id='a3'></div>
+<div id='a4'></div>
+<div id='a5'>Location of the ________</div>
+<div id='a6'>Takes information ________ from the cell body</div>
+<div id='a7'>Takes information from other neurons _____ the cell body</div>
+<div id='a8'>Electrical and chemical information moves __________ this space</div>
+<script>
+document.onmousedown = function(ev) {
+            ev.preventDefault();
+}
+document.ondragstart = function(ev) {
+            ev.preventDefault();
+        };
+document.ondragend = function(ev) {
+            ev.preventDefault();
+        };
+//全局变量
+var x = 0;
+var y = 0;
+var l = 0;
+var t = 0;
+var target='';
+var isDown = false;//当前是否
+var q1=document.getElementById("q1");
+var q2=document.getElementById("q2");
+var q3=document.getElementById("q3");
+var q4=document.getElementById("q4");
+var q5=document.getElementById("q5");
+var q6=document.getElementById("q6");
+var q7=document.getElementById("q7");
+var q8=document.getElementById("q8");
+var a1=document.getElementById("a1");
+var a2=document.getElementById("a2");
+var a3=document.getElementById("a3");
+var a4=document.getElementById("a4");
+var a5=document.getElementById("a5");
+var a6=document.getElementById("a6");
+var a7=document.getElementById("a7");
+var a8=document.getElementById("a8");
+var health=document.getElementById("health");
+var lives=5;
+var count=0;
+function reset(target){
+if (target==='q1'){
+q1.style.left = '1100px';
+q1.style.top = '50px';
+}
+else if (target==='q2'){
+q2.style.left = '1100px';
+q2.style.top = '250px';
+}
+else if (target==='q3'){
+q3.style.left = '1100px';
+q3.style.top = '450px';
+}
+else if (target==='q4'){
+q4.style.left = '1100px';
+q4.style.top = '650px';
+}
+else if (target==='q5'){
+q5.style.left = '1300px';
+q5.style.top = '50px';
+}
+else if (target==='q6'){
+q6.style.left = '1300px';
+q6.style.top = '250px';
+}
+else if (target==='q7'){
+q7.style.left = '1300px';
+q7.style.top = '450px';
+}
+else if (target==='q8'){
+q8.style.left = '1300px';
+q8.style.top = '650px';
+}
+  }
+q1.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q1';
+//获取当前元素的top和left
+l = q1.offsetLeft;
+t = q1.offsetTop;
+//修改全局变量
+isDown = true;
+};
+q2.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q2';
+//获取当前元素的top和left
+l = q2.offsetLeft;
+t = q2.offsetTop;
+//修改全局变量
+isDown = true;
+};
+q3.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q3';
+//获取当前元素的top和left
+l = q3.offsetLeft;
+t = q3.offsetTop;
+//修改全局变量
+isDown = true;
+};
+q4.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q4';
+//获取当前元素的top和left
+l = q4.offsetLeft;
+t = q4.offsetTop;
+//修改全局变量
+isDown = true;
+};
+
+q5.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q5';
+//获取当前元素的top和left
+l = q5.offsetLeft;
+t = q5.offsetTop;
+//修改全局变量
+isDown = true;
+};
+q6.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q6';
+//获取当前元素的top和left
+l = q6.offsetLeft;
+t = q6.offsetTop;
+//修改全局变量
+isDown = true;
+};
+q7.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q7';
+//获取当前元素的top和left
+l = q7.offsetLeft;
+t = q7.offsetTop;
+//修改全局变量
+isDown = true;
+};
+q8.onmousedown = function(e)
+{
+//获取当前鼠标的位置
+x = e.clientX;
+y = e.clientY;
+target='q8';
+//获取当前元素的top和left
+l = q8.offsetLeft;
+t = q8.offsetTop;
+//修改全局变量
+isDown = true;
+};
+document.onmousemove = function(e)
+{
+//判断当前鼠标是否按下
+if(!isDown){return;}
+
+//获取当前鼠标位置
+var _x = e.clientX;
+var _y = e.clientY;
+
+//计算新的left和top
+var newL = _x-(x-l);
+var newT = _y-(y-t);
+
+//修改位置
+if (target==='q2'){
+q2.style.left = newL+'px';
+q2.style.top = newT+'px';}
+else if (target==='q1'){
+q1.style.left = newL+'px';
+q1.style.top = newT+'px';}
+else if (target==='q3'){
+q3.style.left = newL+'px';
+q3.style.top = newT+'px';}
+else if (target==='q4'){
+q4.style.left = newL+'px';
+q4.style.top = newT+'px';}
+else if (target==='q5'){
+q5.style.left = newL+'px';
+q5.style.top = newT+'px';}
+
+else if (target==='q6'){
+q6.style.left = newL+'px';
+q6.style.top = newT+'px';}
+
+else if (target==='q7'){
+q7.style.left = newL+'px';
+q7.style.top = newT+'px';}
+
+else if (target==='q8'){
+q8.style.left = newL+'px';
+q8.style.top = newT+'px';}
+}
+q1.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+q2.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+q3.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+q4.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+q5.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+q6.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+q7.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+q8.onmouseup = function()
+{
+//修改全局变量
+isDown = false;
+};
+a1.onmouseup = function()
+{
+isDown = false;
+if (target==='q1'){
+q1.innerHTML='';
+a1.innerHTML='Axon';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+a2.onmouseup = function()
+{
+isDown = false;
+if (target==='q2'){
+q2.innerHTML='';
+a2.innerHTML='Cell body';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+a3.onmouseup = function()
+{
+isDown = false;
+if (target==='q3'){
+q3.innerHTML='';
+a3.innerHTML='Synapse';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+a4.onmouseup = function()
+{
+isDown = false;
+if (target==='q4'){
+q4.innerHTML='';
+a4.innerHTML='Dendrite';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+a5.onmouseup = function()
+{
+isDown = false;
+if (target==='q5'){
+q5.innerHTML='';
+a5.innerHTML='Location of the nucleus';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+a6.onmouseup = function()
+{
+isDown = false;
+if (target==='q6'){
+q6.innerHTML='';
+a6.innerHTML='Takes information away from the cell body';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+a7.onmouseup = function()
+{
+isDown = false;
+if (target==='q7'){
+q7.innerHTML='';
+a7.innerHTML='Takes information to the cell body';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+a8.onmouseup = function()
+{
+isDown = false;
+if (target==='q8'){
+q8.innerHTML='';
+a8.innerHTML='Electrical and chemical information moves across this space';
+alert('Correct')
+count+=1
+if (count==8){
+alert('You win');
+}
+}
+else{
+alert('Incorrect')
+reset(target);
+lives-=1
+health.innerHTML='you have '+lives+' lives'
+if (lives===0){
+alert('you lose');
+window.location.replace("gameover.html");}
+}
+};
+</script>
+</body>
+</html>
