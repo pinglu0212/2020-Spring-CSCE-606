@@ -1,0 +1,56 @@
+body {
+  background-image: url(image/tenor.gif);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.main {
+  text-align: center;
+  background-color: transparent;
+  border-radius: 20px;
+  width: 70%;
+  height: 70%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  margin: auto;
+  background: rgba(216, 216, 216, 0.5); /*设置form表单透明度*/
+  overflow: hidden;
+}
+
+.table {
+  text-align: center;
+
+  margin: auto;
+  position: relative;
+}
+.defaultshow {
+  color: #000;
+}
+
+.inputshow {
+  color: #000;
+}
+.smallimg {
+  width: 320px;
+  height: 180px;
+}
+
+.main-left {
+  width: 50%;
+  float: left;
+}
+
+.main-right {
+  width: 50%;
+  float: right;
+}
+.footer {
+  clear: both;
+  height: 50px;
+}
