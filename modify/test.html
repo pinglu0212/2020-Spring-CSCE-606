@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/testcsss.css" />
+  </head>
+
+  <body>
+    <div class="main">
+      <h1>CELL BIOLOGY</h1>
+      <div class="main-left">
+        <table style="font-size: 30px;" class="table">
+          <tr style="height: 100px;">
+            <td style="font-size: x-large;">Sentence:</td>
+            <td>
+              <input
+                type="text"
+                id="sentence"
+                value="cell is important to us"
+                class="defaultshow"
+              />
+            </td>
+          </tr>
+
+          <tr style="height: 100px;">
+            <td style="font-size: x-large;">File Name:</td>
+            <td>
+              <input type="text" id="jname" value="test.json" />
+            </td>
+          </tr>
+          <tr style="height: 100px;">
+            <td style="font-size: x-large;">Image Source:</td>
+            <td>
+              <input
+                type="text"
+                id="images"
+                value="1.jpg"
+                class="defaultshow"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size: x-large;">Image Show:</td>
+            <td>
+              <img src="" label="" class="smallimg" id="realimage" />
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="main-right">
+        <table style="font-size: 30px;" class="table" id="dyna">
+          <tr>
+            <td style="width: 50px; font-size: xx-large;">Word</td>
+            <td style="width: 240px; font-size: xx-large;">Hint</td>
+            <td style="width: 50px; font-size: xx-large;">Action</td>
+          </tr>
+          <tr>
+            <td style="width: 50px;">
+              <input
+                type="text"
+                id="word"
+                value="Word?"
+                class="defaultshow"
+                style="width: 50px;"
+              />
+            </td>
+            <td style="width: 200px;">
+              <input
+                type="text"
+                id="hints"
+                value="Please enter hints"
+                class="defaultshow"
+                style="width: 200px;"
+              />
+            </td>
+            <td style="width: 50px;">
+              <input type="button" onclick="del(this)" value="delete" />
+            </td>
+          </tr>
+        </table>
+        <input type="button" value="Add" onclick="addNewWord()" />
+      </div>
+      <div class="footer">
+        <input type="button" value="Submit" id="submit" />
+      </div>
+    </div>
+
+    <script>
+      var words = document.getElementById("word");
+      var sentence = document.getElementById("sentence");
+      var hints = document.getElementById("hints");
+      var imgs = document.getElementById("images");
+      var realimage = document.getElementById("realimage");
+      var download = document.getElementById("submit");
+      var jname = document.getElementById("jname");
+
+      var storesentence = "cell is important to us";
+      var storewords = [];
+      var storehints = {};
+      var imgsource = "1.jpg";
+
+      wordflag = 0;
+      sentenceflag = 0;
+      hintsflag = 0;
+      imgsourceflag = 0;
+      nameflag = 0;
+
+      sentence.onfocus = function () {
+        if (sentenceflag === 0) {
+          this.class = "inputshow";
+          this.value = "";
+          sentenceflag = 1;
+        }
+      };
+      sentence.onblur = function () {
+        if (this.value === "") {
+          this.value = "cell is important to us";
+          sentenceflag = 0;
+          storesentence = "cell is important to us";
+          this.class = "defaultshow";
+        } else {
+          //storesentence = this.value.trim().split(/\s+/);
+          storesentence = this.value;
+          //console.log(storesentence);
+        }
+      };
+
+      imgs.onfocus = function () {
+        if (imgsourceflag === 0) {
+          this.class = "inputshow";
+          this.value = "";
+          imgsourceflag = 1;
+        }
+      };
+      imgs.onblur = function () {
+        if (this.value === "") {
+          this.value = "1.jpg";
+          imgsourceflag = 0;
+          imgsource = "1.jpg";
+          this.class = "defaultshow";
+        } else {
+          realimage.src = this.value;
+          imgsource = this.value;
+        }
+      };
+
+      jname.onfocus = function () {
+        if (nameflag === 0) {
+          this.class = "inputshow";
+          this.value = "";
+          nameflag = 1;
+        }
+      };
+      jname.onblur = function () {
+        if (this.value === "") {
+          this.value = "test.json";
+          nameflag = 0;
+          this.class = "defaultshow";
+        } else {
+          if (this.value.slice(-5) !== ".json") {
+            this.value = this.value + ".json";
+          }
+        }
+      };
+
+      download.onclick = function () {
+        var store = {};
+        store["sentence"] = storesentence;
+        store["words"] = [];
+        store["hints"] = {};
+        for (var i = 0; i < storewords.length; i++) {
+          if (
+            storewords[i] !== "$" &&
+            storehints.hasOwnProperty(storewords[i])
+          ) {
+            store["words"][store["words"].length] = storewords[i];
+            store["hints"][storewords[i]] = storehints[storewords[i]];
+          }
+        }
+        store["imgurl"] = imgsource;
+        var filename = jname.value;
+        downLoadFiles(store, filename);
+      };
+
+      const downLoadFiles = (data, fileName) => {
+        if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
+          var blob = new Blob([JSON.stringify(data)], {
+            type: "data:application/json;charset=utf-8",
+          });
+          navigator.msSaveOrOpenBlob(blob, fileName);
+        } else {
+          const a = document.createElement("a");
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          var blobs = new Blob([JSON.stringify(data)], {
+            type: "data:application/json;charset=utf-8",
+          });
+          var objurl = URL.createObjectURL(blobs);
+          a.href = objurl;
+          // a.href = "data:application/json;charset=utf-8" + JSON.stringify(data, null, 2);
+          a.download = fileName;
+          a.click();
+          document.body.removeChild(a);
+        }
+      };
+
+      var rightTr = document.getElementById("dyna").getElementsByTagName("tr");
+      for (var j = 0; j < rightTr.length; j++) {
+        if (j == 0) {
+          continue;
+        }
+        trFunction(rightTr[j]);
+      }
+      function trFunction(obj) {
+        td = obj.getElementsByTagName("input");
+        console.log(td);
+        td[0].onfocus = function () {
+          if (this.value === "Word?") {
+            this.class = "inputshow";
+            this.value = "";
+          }
+        };
+        td[0].onblur = function () {
+          if (this.value === "") {
+            this.value = "Word?";
+            //alert("Empty Word!");
+            this.class = "defaultshow";
+          } else {
+            var temp = 0;
+            for (var i = 0; i < storewords.length; i++) {
+              if (storewords[i] === this.value) {
+                temp++;
+                break;
+              }
+            }
+            if (this.value !== "Word?" && temp === 0) {
+              storewords[storewords.length] = this.value;
+            }
+          }
+        };
+        td[1].onfocus = function () {
+          if (this.value === "Please enter hints") {
+            this.class = "inputshow";
+            this.value = "";
+          }
+        };
+        td[1].onblur = function () {
+          if (this.value === "") {
+            this.value = "Please enter hints";
+            //alert("Empty hint!");
+          } else {
+            if (
+              td[0].value !== "" ||
+              td[0].value !== "Word?" ||
+              this.value !== "Please enter hints"
+            ) {
+              storehints[td[0].value] = this.value;
+            }
+          }
+        };
+      }
+      function del(obj) {
+        var tr = obj.parentNode.parentNode;
+        var td = tr.getElementsByTagName("input");
+        console.log(storehints);
+        for (var i = 0; i < storewords.length; i++) {
+          if (storewords[i] === td[0].value) {
+            storewords[i] = "$";
+          }
+        }
+        console.log(storehints);
+        tr.parentNode.removeChild(tr);
+      }
+
+      function addNewWord() {
+        var tr = document.createElement("tr");
+        var xh = document.createElement("td");
+        var xm = document.createElement("td");
+        var del = document.createElement("td");
+
+        xh.style.width = "50px";
+        xm.style.width = "200px";
+        del.style.width = "50px";
+        xh.innerHTML =
+          "<input type='text' value='Word?' class='defaultshow' style='width: 50px;' />";
+        xm.innerHTML =
+          "<input type='text' value='Please enter hints' class='defaultshow' style='width: 200px;' />";
+        del.innerHTML =
+          "<input type='button' onclick='del(this)' value='delete' >";
+        var tab = document.getElementById("dyna");
+        tab.appendChild(tr);
+        tr.appendChild(xh);
+        tr.appendChild(xm);
+        tr.appendChild(del);
+        var rightTr = document
+          .getElementById("dyna")
+          .getElementsByTagName("tr");
+        for (var j = 0; j < rightTr.length; j++) {
+          if (j == 0) {
+            continue;
+          }
+          trFunction(rightTr[j]);
+        }
+      }
+    </script>
+  </body>
+</html>
