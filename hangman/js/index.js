@@ -1,127 +1,167 @@
-window.onload = function() {
+window.onload = function () {
+  var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
-    var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-        't', 'u', 'v', 'w', 'x', 'y', 'z'
-    ];
+  var words; // Masked words
+  var guess; // Guess
+  var guesses = []; // Stored guesses
+  var lives; // Lives
+  var counter; // Count correct guesses
+  var words = [];
+  var hints = [];
 
-    var words; // Masked words
-    var guess; // Guess
-    var guesses = []; // Stored guesses
-    var lives; // Lives
-    var counter; // Count correct guesses
+  // Get elements
+  var lp = document.getElementById("health");
+  var showLives = document.getElementById("mylives");
+  var showClue = document.getElementById("clue");
+  var holds = [];
+  var questionBlock = document.getElementById("question");
 
-    // Get elements
-    var lp = document.getElementById('health');
-    var showLives = document.getElementById("mylives");
-    var showClue = document.getElementById("clue");
-    var holds = document.getElementsByClassName('hold');
+  // create alphabet ul
+  var buttons = function () {
+    myButtons = document.getElementById("buttons");
+    letters = document.createElement("ul");
 
-
-
-    // create alphabet ul
-    var buttons = function() {
-        myButtons = document.getElementById('buttons');
-        letters = document.createElement('ul');
-
-        for (var i = 0; i < alphabet.length; i++) {
-            letters.id = 'alphabet';
-            list = document.createElement('li');
-            list.id = 'letter';
-            list.innerHTML = alphabet[i];
-            check();
-            myButtons.appendChild(letters);
-            letters.appendChild(list);
-        }
+    for (var i = 0; i < alphabet.length; i++) {
+      letters.id = "alphabet";
+      list = document.createElement("li");
+      list.id = "letter";
+      list.innerHTML = alphabet[i];
+      check();
+      myButtons.appendChild(letters);
+      letters.appendChild(list);
     }
+  };
 
-
-    // Create guesses ul
-    result = function() {
-        wordHolders = document.getElementsByClassName('hold');
-        corrects = []
-        for (var i = 0; i < wordHolders.length; i++) {
-            correct = document.createElement('ul');
-            correct.setAttribute('id', 'my-word');
-            for (var j = 0; j < words[i].length; j++) {
-                guess = document.createElement('li');
-                guess.setAttribute('class', 'guess');
-                guess.innerHTML = "_";
-                guesses.push(guess);
-                wordHolders[i].appendChild(correct);
-                correct.appendChild(guess);
-            }
-            corrects.push(correct)
-        }
-        
+  // Create guesses ul
+  result = function () {
+    var sentence = rawSentence.toLowerCase();
+    var indices = {};
+    for (var word of rawWords) {
+      var idx = sentence.indexOf(word);
+      while (idx !== -1) {
+        indices[idx] = word;
+        idx = sentence.indexOf(word, idx + 1);
+      }
     }
-
-
-    // Show lives
-    comments = function() {
-        showLives.innerHTML = "You have " + lives + " lives";
-        if (lives < 1) {
-            showLives.innerHTML = "Game Over";
-            for (var l of document.getElementById('alphabet').childNodes) {
-                l.onclick = null;
-            }
-        }
-        for (var i = 0; i < guesses.length; i++) {
-            if (counter === guesses.length) {
-                showLives.innerHTML = "You Win!";
-                for (var l of document.getElementById('alphabet').childNodes) {
-                    l.onclick = null;
-                }
-            }
-        }
+    var orderedIndices = {};
+    Object.keys(indices)
+      .sort()
+      .forEach(function (key) {
+        orderedIndices[key] = indices[key];
+      });
+    words = Object.values(orderedIndices);
+    copiedSentence = rawSentence.slice();
+    for (var word of words) {
+      hints.push(rawHints[word]);
+      copiedSentence = copiedSentence.replace(new RegExp(word, "i"), "|TRIM|");
     }
-
-
-    // Change lives
-    var changeLP = function() {
-        lp.src = './images/' + lives + '.png';
-        console.log()
+    var sentencePieces = copiedSentence.split("|TRIM|");
+    if (sentencePieces[0] !== "") {
+      var element = document.createElement("span");
+      element.setAttribute("class", "unmask");
+      element.innerHTML = sentencePieces[0];
+      questionBlock.appendChild(element);
     }
+    for (var i = 0; i < words.length; i++) {
+      var hold = document.createElement("div");
+      hold.setAttribute("class", "hold");
+      hold.setAttribute("id", i);
+      var piece = document.createElement("span");
+      piece.setAttribute("class", "unmask");
+      piece.innerHTML = sentencePieces[i + 1];
+      questionBlock.appendChild(hold);
+      questionBlock.appendChild(piece);
+    }
+    holds = document.getElementsByClassName("hold");
+    wordHolders = document.getElementsByClassName("hold");
+    corrects = [];
+    for (var i = 0; i < wordHolders.length; i++) {
+      correct = document.createElement("ul");
+      correct.setAttribute("id", "my-word");
+      for (var j = 0; j < words[i].length; j++) {
+        guess = document.createElement("li");
+        guess.setAttribute("class", "guess");
+        guess.innerHTML = "_";
+        guesses.push(guess);
+        wordHolders[i].appendChild(correct);
+        correct.appendChild(guess);
+      }
+      corrects.push(correct);
+    }
+  };
 
-
-    // OnClick Function
-    check = function() {
-        list.onclick = function() {
-            var guess = (this.innerHTML);
-            this.setAttribute("class", "active");
-            this.onclick = null;
-            var idx = 0;
-            for (var i = 0; i < words.length; i++){
-                for (var j = 0; j < words[i].length; j++) {
-                    if (words[i][j] === guess) {
-                        guesses[idx].innerHTML = guess;
-                        counter += 1;
-                    }
-                    idx++;
-                }
-            }
-            var k = 0;
-            for (var i = 0; i < words.length; i++) {
-                k += words[i].indexOf(guess);
-            }
-            if (k === -3) {
-                lives -= 1;
-                comments();
-                changeLP();
-            } else {
-                comments();
-            }
+  // Show lives
+  comments = function () {
+    showLives.innerHTML = "You have " + lives + " lives";
+    if (lives < 1) {
+      showLives.innerHTML = "Game Over";
+      for (var l of document.getElementById("alphabet").childNodes) {
+        l.onclick = null;
+      }
+    }
+    for (var i = 0; i < guesses.length; i++) {
+      if (counter === guesses.length) {
+        showLives.innerHTML = "You Win!";
+        for (var l of document.getElementById("alphabet").childNodes) {
+          l.onclick = null;
         }
+      }
     }
+  };
 
+  // Change lives
+  var changeLP = function () {
+    lp.src = "./images/" + lives + ".png";
+    console.log();
+  };
 
-    // Play
-    play = function() {
+  // OnClick Function
+  check = function () {
+    list.onclick = function () {
+      var guess = this.innerHTML;
+      this.setAttribute("class", "active");
+      this.onclick = null;
+      var idx = 0;
+      for (var i = 0; i < words.length; i++) {
+        for (var j = 0; j < words[i].length; j++) {
+          if (words[i][j] === guess) {
+            guesses[idx].innerHTML = guess;
+            counter += 1;
+          }
+          idx++;
+        }
+      }
+      var k = 0;
+      for (var i = 0; i < words.length; i++) {
+        k += words[i].indexOf(guess);
+      }
+      if (k === -words.length) {
+        lives -= 1;
+        comments();
+        changeLP();
+      } else {
+        comments();
+      }
+    };
+  };
 
-        words = ['nerves', 'autonomic', 'somatic'];
-        hints = ['have special receptors for each sense', 'voluntary actions', 'involuntary actions']
-
-        console.log(words);
+  // Play
+  play = function () {
+    $.get("../configs", function (data) {
+      // This may not work on dev server
+      var files = [];
+      var tags = data.match(/<a href="([^.][^"]+)"[^>]*>/gm);
+      for (var tag of tags) {
+        tag = tag.replace('<a href="', "");
+        tag = tag.replace('">', "");
+        files.push(tag);
+      }
+      var fileIdx = Math.floor(Math.random() * files.length);
+      var file = "/configs/" + files[fileIdx];
+      $.getJSON(file, function (json) {
+        rawSentence = json["sentence"];
+        rawWords = json["words"];
+        rawHints = json["hints"];
         buttons();
 
         guesses = [];
@@ -129,42 +169,44 @@ window.onload = function() {
         counter = 0;
         result();
         comments();
-        
-        lp.src = './images/5.png';
-    }
 
+        lp.src = "./images/5.png";
 
-    play();
-
-
-    // Hint
-    for (var hold of holds) {
-        hold.onclick = function() {
+        // Hint
+        for (var hold of holds) {
+          hold.onclick = function () {
             showClue.innerHTML = "Clue: " + hints[this.id];
-            var lastActive = document.getElementsByClassName('activeHold');
+            var lastActive = document.getElementsByClassName("activeHold");
             if (lastActive) {
-                for (var actived of lastActive) {
-                    actived.setAttribute("class", "hold");
-                }
+              for (var actived of lastActive) {
+                actived.setAttribute("class", "hold");
+              }
             }
             this.setAttribute("class", "activeHold");
+          };
         }
-    }
+      });
+    });
+  };
 
+  play();
 
-    // Reset
-    document.getElementById('reset').onclick = function() {
-        for (var i = 0; i < corrects.length; i++) {
-            corrects[i].parentNode.removeChild(corrects[i]);
-        }
-        letters.parentNode.removeChild(letters);
-        showClue.innerHTML = "";
-        var lastActive = document.getElementsByClassName('activeHold');
-            if (lastActive) {
-                for (var actived of lastActive) {
-                    actived.setAttribute("class", "hold");
-                }
-            }
-        play();
+  // Reset
+  document.getElementById("reset").onclick = function () {
+    for (var i = 0; i < corrects.length; i++) {
+      corrects[i].parentNode.removeChild(corrects[i]);
     }
-}
+    letters.parentNode.removeChild(letters);
+    showClue.innerHTML = "";
+    var lastActive = document.getElementsByClassName("activeHold");
+    if (lastActive) {
+      for (var actived of lastActive) {
+        actived.setAttribute("class", "hold");
+      }
+    }
+    words = [];
+    hints = [];
+    questionBlock.innerHTML = "";
+    play();
+  };
+};

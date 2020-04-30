@@ -26,7 +26,7 @@
           <tr style="height: 100px;">
             <td style="font-size: x-large;">File Name:</td>
             <td>
-              <input type="text" id="jname" value="test.json" />
+              <input type="text" id="jname" value="config.json" />
             </td>
           </tr>
           <tr style="height: 100px;">
@@ -154,7 +154,7 @@
       };
       jname.onblur = function () {
         if (this.value === "") {
-          this.value = "test.json";
+          this.value = "config.json";
           nameflag = 0;
           this.class = "defaultshow";
         } else {
@@ -181,6 +181,7 @@
         store["imgurl"] = imgsource;
         var filename = jname.value;
         downLoadFiles(store, filename);
+        window.location.reload();
       };
 
       const downLoadFiles = (data, fileName) => {
