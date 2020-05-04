@@ -1,0 +1,23 @@
+{
+    "sentence": "The peripheral nervous system is made up of nerves and has two divisions: the autonomic and somatic.",
+    "words": [
+        "nerves",
+        "autonomic",
+        "somatic"
+    ],
+    "hints": {
+        "nerves": {
+            "text hints": "nerves",
+            "img hints": "./images/neuron.png"
+        },
+        "autonomic": {
+            "text hints": "autonomic",
+            "img hints": "None"
+        },
+        "somatic": {
+            "text hints": "somatic",
+            "img hints": "None"
+        }
+    },
+    "description": "Description to your question!"
+}
