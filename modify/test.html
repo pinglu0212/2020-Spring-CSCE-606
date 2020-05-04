@@ -8,42 +8,30 @@
 
   <body>
     <div class="main">
-      <h1>CELL BIOLOGY</h1>
+      <h1>STRESS LEARNING GAME FILE SYSTEM</h1>
       <div class="main-left">
-        <table style="font-size: 30px;" class="table">
-          <tr style="height: 100px;">
+        <table style="font-size: 30px; height: 500px;" class="table">
+          <tr style="height: 30%;">
             <td style="font-size: x-large;">Sentence:</td>
             <td>
-              <input
-                type="text"
-                id="sentence"
-                value="cell is important to us"
-                class="defaultshow"
-              />
+              <textarea rows="6" cols="20" id="sentence">
+cell is important to us</textarea
+              >
             </td>
           </tr>
 
-          <tr style="height: 100px;">
+          <tr style="height: 20%;">
             <td style="font-size: x-large;">File Name:</td>
             <td>
               <input type="text" id="jname" value="test.json" />
             </td>
           </tr>
-          <tr style="height: 100px;">
-            <td style="font-size: x-large;">Image Source:</td>
+          <tr style="height: 50%;">
+            <td style="font-size: x-large;">Description:</td>
             <td>
-              <input
-                type="text"
-                id="images"
-                value="1.jpg"
-                class="defaultshow"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td style="font-size: x-large;">Image Show:</td>
-            <td>
-              <img src="" label="" class="smallimg" id="realimage" />
+              <textarea rows="12" cols="20" id="description">
+Description to your question!</textarea
+              >
             </td>
           </tr>
         </table>
@@ -51,9 +39,13 @@
       <div class="main-right">
         <table style="font-size: 30px;" class="table" id="dyna">
           <tr>
-            <td style="width: 50px; font-size: xx-large;">Word</td>
-            <td style="width: 240px; font-size: xx-large;">Hint</td>
-            <td style="width: 50px; font-size: xx-large;">Action</td>
+            <td style="width: 50px; font-size: x-large;">Word</td>
+            <td style="width: 240px; font-size: x-large;">Text Hint</td>
+            <td style="width: 180px; font-size: x-large;">
+              Image URL
+            </td>
+            <td style="width: 120px; font-size: x-large;">Image Show</td>
+            <td style="width: 50px; font-size: x-large;">Action</td>
           </tr>
           <tr>
             <td style="width: 50px;">
@@ -74,6 +66,13 @@
                 style="width: 200px;"
               />
             </td>
+            <td style="width: 180px;">
+              <input type="text" value="None" />
+            </td>
+
+            <td style="width: 200px;">
+              <img src="" label="" class="smallimg" />
+            </td>
             <td style="width: 50px;">
               <input type="button" onclick="del(this)" value="delete" />
             </td>
@@ -89,33 +88,29 @@
     <script>
       var words = document.getElementById("word");
       var sentence = document.getElementById("sentence");
-      var hints = document.getElementById("hints");
-      var imgs = document.getElementById("images");
-      var realimage = document.getElementById("realimage");
+      var description = document.getElementById("description");
+      //var imgs = document.getElementById("images");
+      //var realimage = document.getElementById("realimage");
       var download = document.getElementById("submit");
       var jname = document.getElementById("jname");
 
       var storesentence = "cell is important to us";
       var storewords = [];
       var storehints = {};
-      var imgsource = "1.jpg";
 
-      wordflag = 0;
       sentenceflag = 0;
-      hintsflag = 0;
-      imgsourceflag = 0;
       nameflag = 0;
 
       sentence.onfocus = function () {
         if (sentenceflag === 0) {
           this.class = "inputshow";
-          this.value = "";
+          this.innerHTML = "";
           sentenceflag = 1;
         }
       };
       sentence.onblur = function () {
         if (this.value === "") {
-          this.value = "cell is important to us";
+          this.innerHTML = "cell is important to us";
           sentenceflag = 0;
           storesentence = "cell is important to us";
           this.class = "defaultshow";
@@ -123,25 +118,6 @@
           //storesentence = this.value.trim().split(/\s+/);
           storesentence = this.value;
           //console.log(storesentence);
-        }
-      };
-
-      imgs.onfocus = function () {
-        if (imgsourceflag === 0) {
-          this.class = "inputshow";
-          this.value = "";
-          imgsourceflag = 1;
-        }
-      };
-      imgs.onblur = function () {
-        if (this.value === "") {
-          this.value = "1.jpg";
-          imgsourceflag = 0;
-          imgsource = "1.jpg";
-          this.class = "defaultshow";
-        } else {
-          realimage.src = this.value;
-          imgsource = this.value;
         }
       };
 
@@ -169,18 +145,24 @@
         store["sentence"] = storesentence;
         store["words"] = [];
         store["hints"] = {};
+        store["description"] = description.value;
         for (var i = 0; i < storewords.length; i++) {
           if (
             storewords[i] !== "$" &&
             storehints.hasOwnProperty(storewords[i])
           ) {
             store["words"][store["words"].length] = storewords[i];
-            store["hints"][storewords[i]] = storehints[storewords[i]];
+            store["hints"][storewords[i]] = {};
+            store["hints"][storewords[i]]["text hints"] =
+              storehints[storewords[i]]["text hints"];
+            store["hints"][storewords[i]]["img hints"] =
+              storehints[storewords[i]]["img hints"];
           }
         }
-        store["imgurl"] = imgsource;
+
         var filename = jname.value;
         downLoadFiles(store, filename);
+        window.location.reload();
       };
 
       const downLoadFiles = (data, fileName) => {
@@ -214,6 +196,7 @@
       }
       function trFunction(obj) {
         td = obj.getElementsByTagName("input");
+        timg = obj.getElementsByTagName("img");
         console.log(td);
         td[0].onfocus = function () {
           if (this.value === "Word?") {
@@ -222,6 +205,8 @@
           }
         };
         td[0].onblur = function () {
+          var tr = this.parentNode.parentNode;
+          var td = tr.getElementsByTagName("input");
           if (this.value === "") {
             this.value = "Word?";
             //alert("Empty Word!");
@@ -236,6 +221,15 @@
             }
             if (this.value !== "Word?" && temp === 0) {
               storewords[storewords.length] = this.value;
+              storehints[this.value] = {};
+              storehints[this.value]["text hints"] = "Please enter hints";
+              storehints[this.value]["img hints"] = "None";
+              if (td[1].value !== "Please enter hints") {
+                storehints[this.value]["text hints"] = td[1].value;
+              }
+              if (td[2].value !== "None") {
+                storehints[this.value]["img hints"] = td[2].value;
+              }
             }
           }
         };
@@ -246,18 +240,49 @@
           }
         };
         td[1].onblur = function () {
+          var tr = this.parentNode.parentNode;
+          var td = tr.getElementsByTagName("input");
           if (this.value === "") {
             this.value = "Please enter hints";
             //alert("Empty hint!");
           } else {
             if (
-              td[0].value !== "" ||
-              td[0].value !== "Word?" ||
+              td[0].value !== "" &&
+              td[0].value !== "Word?" &&
               this.value !== "Please enter hints"
             ) {
-              storehints[td[0].value] = this.value;
+              storehints[td[0].value]["text hints"] = this.value;
             }
           }
+        };
+        td[2].onfocus = function () {
+          if (this.value === "None") {
+            this.class = "inputshow";
+            this.value = "";
+            imgsourceflag = 1;
+          }
+          console.log(timg[0]);
+        };
+        td[2].onblur = function () {
+          var tr = this.parentNode.parentNode;
+          var td = tr.getElementsByTagName("input");
+          var timg = tr.getElementsByTagName("img");
+          if (this.value === "") {
+            this.value = "None";
+
+            imgsource = "None";
+            this.class = "defaultshow";
+          } else {
+            if (
+              td[0].value !== "" &&
+              td[0].value !== "Word?" &&
+              this.value !== "None"
+            ) {
+              storehints[td[0].value]["img hints"] = this.value;
+            }
+          }
+
+          timg[0].src = this.value;
         };
       }
       function del(obj) {
@@ -277,21 +302,29 @@
         var tr = document.createElement("tr");
         var xh = document.createElement("td");
         var xm = document.createElement("td");
+        var xis = document.createElement("td");
+        var xim = document.createElement("td");
         var del = document.createElement("td");
 
         xh.style.width = "50px";
         xm.style.width = "200px";
         del.style.width = "50px";
+        xis.style.width = "180px";
+        xim.style.width = "200px";
         xh.innerHTML =
           "<input type='text' value='Word?' class='defaultshow' style='width: 50px;' />";
         xm.innerHTML =
           "<input type='text' value='Please enter hints' class='defaultshow' style='width: 200px;' />";
+        xis.innerHTML = "<input type='text' value='None' />";
+        xim.innerHTML = "<img src = '' class = 'smallimg'/>";
         del.innerHTML =
           "<input type='button' onclick='del(this)' value='delete' >";
         var tab = document.getElementById("dyna");
         tab.appendChild(tr);
         tr.appendChild(xh);
         tr.appendChild(xm);
+        tr.appendChild(xis);
+        tr.appendChild(xim);
         tr.appendChild(del);
         var rightTr = document
           .getElementById("dyna")
