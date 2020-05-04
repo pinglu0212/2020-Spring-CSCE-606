@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Hangman</title>
+    <!-- JQuery -->
+    <script src="./js/jquery/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <!-- IFrame Resizer -->
+    <script src="./js/iframeResizer/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
+    <!-- Bootstrap 4 -->
+    <script src="./js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+    <link href="./css/boostrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script> -->
+</head>
+
+<body>
+    <div id="main">
+        <div class="wrapper">
+            <h1>Hangman</h1>
+            <p>Use the alphabet below to guess the word, or click the blank to get the clue of that word. </p>
+        </div>
+        <div class="wrapper">
+            <div id="buttons"></div>
+            <div id="question"></div>
+            <p id="mylives"></p>
+            <p id="clue"></p>
+            <div id="health"></div>
+            <div class="container">
+                <button id="reset">Play again</button>
+            </div>
+        </div>
+        <script src="js/index.js" type="text/javascript"></script>
+    </div>
+</body>
+
+</html>
