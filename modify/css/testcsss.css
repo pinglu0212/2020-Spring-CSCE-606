@@ -37,18 +37,23 @@ body {
   color: #000;
 }
 .smallimg {
-  width: 320px;
-  height: 180px;
+  width: 160px;
+  height: 120px;
 }
 
 .main-left {
-  width: 50%;
+  width: 30%;
+  height: 80%;
+  overflow: auto;
   float: left;
 }
 
 .main-right {
-  width: 50%;
+  width: 70%;
+  height: 70%;
+  overflow: auto;
   float: right;
+  text-align: center;
 }
 .footer {
   clear: both;
