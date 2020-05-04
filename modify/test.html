@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/testcsss.css" />
+</head>
+
+<body>
+    <div class="main">
+        <h1>Stress Learning Game File System</h1>
+        <div class="main-left">
+            <table style="font-size: 30px; height: 400px;" class="table">
+                <tr style="height: 30%;">
+                    <td style="font-size: x-large;" , class="title">Sentence:</td>
+                    <td>
+                        <textarea rows="6" cols="20" id="sentence">cell is important to us</textarea>
+                    </td>
+                </tr>
+
+                <tr style="height: 10%;">
+                    <td style="font-size: x-large;" , class="title">File Name:</td>
+                    <td>
+                        <input type="text" id="jname" value="test.json" />
+                    </td>
+                </tr>
+                <tr style="height: 30%;">
+                    <td style="font-size: x-large;" , class="title">Description:</td>
+                    <td>
+                        <textarea rows="6" cols="20" id="description">Description to your question!</textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="main-right">
+            <div id="dyna">
+                <table class="table" id="right-table">
+                    <tr>
+                        <td style="width: 50px; font-size: x-large;" , class="title">Word</td>
+                        <td style="width: 240px; font-size: x-large;" , class="title">Text Hint</td>
+                        <td style="width: 180px; font-size: x-large;" , class="title">Image URL</td>
+                        <td style="width: 200px; font-size: x-large;" , class="title">Image Show</td>
+                        <td style="width: 50px; font-size: x-large;" , class="title">Action</td>
+                    </tr>
+                    <tr id="item">
+                        <td>
+                            <input type="text" id="word" value="Word?" class="defaultshow" style="width: 50px;" />
+                        </td>
+                        <td>
+                            <input type="text" id="hints" value="Please enter hints" class="defaultshow" style="width: 240px;" />
+                        </td>
+                        <td style="width: 180px;">
+                            <input type="text" id="url" value="None" />
+                        </td>
+
+                        <td style="width: 200px;">
+                            <img src="" label="" class="smallimg" />
+                        </td>
+                        <td style="width: 50px;">
+                            <button type="delete" class="button button-block" id="delete-button" onclick="del(this)" />delete</button>
+                            <!-- <input type="button" onclick="del(this)" value="delete" /> -->
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button type="add" class="button button-block" id="add-button" onclick="addNewWord()" />add</button>
+            <!-- <input type="button" value="Add" id="add-button" onclick="addNewWord()" /> -->
+        </div>
+        <div class="footer">
+            <button type="submit" class="button button-block" id="submit" />SUBMIT</button>
+            <!-- <input type="button" value="Submit" id="submit" /> -->
+        </div>
+    </div>
+
+    <script src="js/testjs.js"></script>
+</body>
+
+</html>
