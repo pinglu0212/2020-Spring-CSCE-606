@@ -77,6 +77,7 @@ body {
 }
 
 .smallimg {
+<<<<<<< HEAD
     width: 160px;
     height: 120px;
 }
@@ -94,6 +95,25 @@ body {
     float: right;
     text-align: center;
     overflow: auto;
+=======
+  width: 160px;
+  height: 120px;
+}
+
+.main-left {
+  width: 30%;
+  height: 80%;
+  overflow: auto;
+  float: left;
+}
+
+.main-right {
+  width: 70%;
+  height: 70%;
+  overflow: auto;
+  float: right;
+  text-align: center;
+>>>>>>> 15a26bf3598fe8f20b78d787997312537b8fd615
 }
 
 #add-button,
